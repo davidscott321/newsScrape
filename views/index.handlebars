@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">Mongo Scraper for cracked.com</a>
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarColor01">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/saved">Saved Articles</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-danger scrape-new">Scrape New Articles!</a>
+
+        {{!-- <form action="/scrape" method="GET">
+          <button class="btn btn-danger" type="submit">Scrape For Newest Articles</button>
+        </form> --}}
+
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-danger clear">Clear Articles!</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="jumbotron text-center">
+  <div class="overlay">
+  </div>
+  <div class="background-image">
+  </div>
+  <div class="caption">
+    <h1>Mongo Scraper</h1>
+    <p>Cracked.com Edition</p>
+  </div>
+</div>
+
+<div class="container-fluid article-container">
+  {{#each articles}}
+    <div class="card">
+      <div class="card-header">
+        <h3>
+          <a class="article-link" target="_blank" rel="noopener noreferrer" href="{{this.link}}">{{this.title}}</a>
+          <a class="btn btn-success save">{{this.status}}</a>
+        </h3>
+      </div>
+      <div class="card-body">
+        {{this.description}}
+      </div>
+    </div>
+
+    <div class="story-body" id={{this._id}}>
+      <h2>
+        <a href="{{this.link}}" target="_blank">{{this.title}}</a>
+        <a class="btn btn-danger"></a>
+        
+        <form action="/save/{{this._id}}" method="POST">
+          <button type="submit" class="status" value="{{this.status}}">{{this.status}}</button>
+            {{!-- {{#unless this.note}}
+            <button type="button" class="addnote-button" value="{{this._id}}">Add A Note</button>
+            {{/unless}}
+            {{#if this.note}}
+          <button type="button" class="addnote-button" value="{{this._id}}">Edit Note</button>
+          {{/if}} --}}
+        </form>
+      </h2>
+      <summary>{{this.summary}}</summary>
+      <img class="media" src="{{this.img}}">
+    </div>
+  {{else}}
+  {{!-- <div class="container-fluid article-container"> --}}
+  
+    <div class="alert alert-warning text-center">
+      <h4>Uh Oh. Looks like we don't have any new articles.</h4>
+    </div>
+    <div class="card">
+      <div class="card-header text-center">
+        <h3>What Would You Like To Do?</h3>
+      </div>
+      <div class="card-body text-center">
+        <h4>
+          <a class="scrape-new">Try Scraping New Articles</a>
+        </h4>
+        <h4>
+          <a href="/saved">Go to Saved Articles</a>
+        </h4>
+      </div>
+    </div>
+  {{/each}}
+</div>
